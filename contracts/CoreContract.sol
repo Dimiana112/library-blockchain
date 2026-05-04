@@ -27,19 +27,19 @@ contract LibraryCore {
   
     mapping(address => string) public users;
 
-     Events
+    // Events
  
     event BookAdded(uint id, string title);
     event BookBorrowed(uint id, address user);
     event BookReturned(uint id, address user);
 
-    Constructor
+   // Constructor
     
     constructor() {
         admin = msg.sender;
     }
 
-    Modifiers
+   // Modifiers
     
     modifier onlyOwner() {
         require(msg.sender == admin, "Not admin");
@@ -51,7 +51,7 @@ contract LibraryCore {
         _;
     }
 
-   Book Functions
+  // Book Functions
    
 
     function addBook(string memory _title) public onlyOwner {
@@ -85,7 +85,7 @@ contract LibraryCore {
         emit BookReturned(_id, msg.sender);
     }
 
-     User Functions
+    // User Functions
     
 
     function registerUser(string memory name) public {
@@ -93,7 +93,7 @@ contract LibraryCore {
         users[msg.sender] = name;
     }
 
-    Admin Control
+   // Admin Control
     
 
     function getAdmin() public view returns(address) {
