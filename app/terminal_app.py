@@ -1,6 +1,6 @@
 from transaction_sender import borrow_book
 from transaction_sender import return_book
-
+contract = None
 print("=== Library System ===")
 
 while True:
@@ -16,12 +16,12 @@ while True:
         print(f"User {name} registered")
 
     elif choice == "2":
-        book_id = input("Enter Book ID: ")
-        print(f"Borrowing book {book_id}")
+        book_id = int(input("Enter Book ID: "))
+        borrow_book(contract, book_id)
 
     elif choice == "3":
-        book_id = input("Enter Book ID: ")
-        print(f"Returning book {book_id}")
+        book_id = int(input("Enter Book ID: "))
+        return_book(contract, book_id)
 
     elif choice == "4":
         print("Goodbye!")
