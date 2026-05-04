@@ -1,0 +1,74 @@
+import json
+import os
+from web3 import Web3
+
+# ==========================================
+# 1. Ganache Setup
+# ==========================================
+RPC_URL = "http://127.0.0.1:7545"
+w3 = Web3(Web3.HTTPProvider(RPC_URL))
+
+def seed_data():
+    if not w3.is_connected():
+        print("Error: Failed to connect to Ganache!")
+        return
+
+    
+    try:
+        with open('app_config.json', 'r') as f:
+            config = json.load(f)
+        
+        admin_address = config['AdminAddress']
+        core_address = config['LibraryCore']
+        
+        
+        
+        private_key = "0x07d0f1061c192869b08939096f1713114d318ca072a1063ee99c2485bcaa97df"
+        
+    except FileNotFoundError:
+        print("Error: 'app_config.json' not found. You must run 'deploy.py' first!")
+        return
+    except KeyError as e:
+        print(f"Error: Missing key {e} in app_config.json")
+        return
+
+    
+    try:
+        with open('LibraryCore.json', 'r') as f:
+            core_abi = json.load(f)['abi']
+    except FileNotFoundError:
+        print("Error: 'LibraryCore.json' (ABI file) not found!")
+        return
+
+    
+    core_contract = w3.eth.contract(address=core_address, abi=core_abi)
+
+    
+    books = ["Mastering Ethereum", "Clean Architecture", "Design Patterns", "Solidity Security"]
+    nonce = w3.eth.get_transaction_count(admin_address)
+
+    print(f"Preparing to seed {len(books)} books to contract at {core_address}...")
+
+    
+    transaction = core_contract.functions.addBooksBatch(books).build_transaction({
+        'chainId': w3.eth.chain_id,
+        'gasPrice': w3.eth.gas_price,
+        'from': admin_address,
+        'nonce': nonce
+    })
+
+    try:
+       
+        signed_txn = w3.eth.account.sign_transaction(transaction, private_key=private_key)
+        print("Sending transaction...")
+        tx_hash = w3.eth.send_raw_transaction(signed_txn.raw_transaction)
+        
+        print(f"Waiting for confirmation (Tx Hash: {w3.to_hex(tx_hash)})...")
+        w3.eth.wait_for_transaction_receipt(tx_hash)
+        
+        print(" Success! Fake data seeded successfully.")
+    except Exception as e:
+        print(f" Transaction Error: {e}")
+
+if __name__ == "__main__":
+    seed_data()
