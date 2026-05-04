@@ -1,3 +1,5 @@
+from transaction_sender import borrow_book
+
 print("=== Library System ===")
 
 while True:
