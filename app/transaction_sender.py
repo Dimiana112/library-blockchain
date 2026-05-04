@@ -25,3 +25,8 @@ def return_book(contract, book_id):
     tx = contract.functions.returnBook(book_id).transact({'from': account})
     w3.eth.wait_for_transaction_receipt(tx)
     print("Book returned!")
+
+def register_user(contract, name):
+    tx = contract.functions.registerUser(name).transact({'from': account})
+    w3.eth.wait_for_transaction_receipt(tx)
+    print("User registered!")
