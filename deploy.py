@@ -6,8 +6,8 @@ from web3 import Web3
 # 1. Ganache Setup
 # ==========================================
 RPC_URL = "http://127.0.0.1:7545"
-ADMIN_ADDRESS = Web3.to_checksum_address("0xCe2C6CDf3a281429DC908D179654d3898d8FbCED")
-PRIVATE_KEY = "0x07d0f1061c192869b08939096f1713114d318ca072a1063ee99c2485bcaa97df"
+ADMIN_ADDRESS = Web3.to_checksum_address("0x2111E952d41346E72D9a2Bca147Ef0aECC7925AD")
+PRIVATE_KEY = "0xc428070295ce6ae37a68b1a008ae694ddd569f70e891f1b7693bd4ca407a5110"
 
 w3 = Web3(Web3.HTTPProvider(RPC_URL))
 
