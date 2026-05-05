@@ -1,8 +1,25 @@
+from web3 import Web3
+import json
+
 from transaction_sender import borrow_book
 from transaction_sender import return_book
 from transaction_sender import register_user
 
-contract = None
+# 🔗 connect to blockchain
+w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:7545"))
+
+# 📄 load contract ABI
+with open("LibraryCore.json") as f:
+    contract_data = json.load(f)
+
+abi = contract_data["abi"]
+
+# ⚠️ حطي العنوان هنا بعد deploy
+contract = w3.eth.contract(
+    address="PUT_ADDRESS_HERE",
+    abi=abi
+)
+
 print("=== Library System ===")
 
 while True:
@@ -18,12 +35,18 @@ while True:
         register_user(contract, name)
 
     elif choice == "2":
-        book_id = int(input("Enter Book ID: "))
-        borrow_book(contract, book_id)
+        try:
+            book_id = int(input("Enter Book ID: "))
+            borrow_book(contract, book_id)
+        except:
+            print("Invalid input")
 
     elif choice == "3":
-        book_id = int(input("Enter Book ID: "))
-        return_book(contract, book_id)
+        try:
+            book_id = int(input("Enter Book ID: "))
+            return_book(contract, book_id)
+        except:
+            print("Invalid input")
 
     elif choice == "4":
         print("Goodbye!")
