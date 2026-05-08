@@ -5,12 +5,16 @@ from web3 import Web3
 # ==========================================
 # 1. Ganache Setup
 # ==========================================
+
 RPC_URL = "http://127.0.0.1:7545"
-ADMIN_ADDRESS = Web3.to_checksum_address("0x2111E952d41346E72D9a2Bca147Ef0aECC7925AD")
-PRIVATE_KEY = "0xc428070295ce6ae37a68b1a008ae694ddd569f70e891f1b7693bd4ca407a5110"
+
+ADMIN_ADDRESS = Web3.to_checksum_address(
+    "0xe3D162185588B40230412685980638C72F00939F"
+)
+
+PRIVATE_KEY = "0x751c454bbabb41a4db546c07c0ad258b751c0a8d2fa75312fe46dca87b802c22"
 
 w3 = Web3(Web3.HTTPProvider(RPC_URL))
-
 def deploy_contract(json_file, contract_name):
     if not w3.is_connected():
         print("Error: Failed to connect to Ganache!")
